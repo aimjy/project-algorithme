@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package project;
-
+import squareSubsequences.Dynamic1;
 /**
  *
- * @author jaime
+ * @author Gebruiker
  */
 public class Project {
 
@@ -15,7 +15,7 @@ public class Project {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Dynamic1.amountOfSquareSubSequences("abcdabcd");
     }
     
 }
