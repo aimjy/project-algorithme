@@ -30,8 +30,15 @@ public class Calculate {
      */
     public static int distanceToRelatedMoviesContentBased(Movie a, ArrayList<Movie> relatedMovies) {
         int min_distance = Integer.MAX_VALUE;
-        if (true) {
-            throw new UnsupportedOperationException("Implement distanceToRelatedMovies in class Calculate.");
+        int checker = a.getAmountOfSquareSubSequences();
+        int factor = 1;
+        for(int i = 0; i<relatedMovies.size(); i++) {
+            factor*=relatedMovies.get(i).getAmountOfSquareSubSequences();
+        }
+        for(int i = 0; i<relatedMovies.size(); i++) {
+            int temp = factor/relatedMovies.get(i).getAmountOfSquareSubSequences();
+            int afstand = temp*Math.abs(checker-relatedMovies.get(i).getAmountOfSquareSubSequences());
+            min_distance = (afstand<min_distance)?afstand:min_distance;
         }
         return min_distance;
     }
