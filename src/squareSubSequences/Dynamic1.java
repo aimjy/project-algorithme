@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package project_temp;
+package squareSubSequences;
 
 import java.util.ArrayList;
 
@@ -107,5 +107,6 @@ public class Dynamic1 {
             }
         }
         return alleCombinaties;
+        //test
     }
 }
