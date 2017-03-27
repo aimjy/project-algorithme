@@ -90,10 +90,11 @@ public class Dynamic1 {
         ArrayList<ArrayList<ArrayList<Integer>>> alleCombinaties = new ArrayList<ArrayList<ArrayList<Integer>>>();
         for(int i = 0; i<lijst.size(); i++){
             int an = xy.get(0).get(xy.get(0).size()-1);
+            int b1 = xy.get(1).get(0);
             int bn = xy.get(1).get(xy.get(1).size()-1);
             int c = lijst.get(i).get(0);
             int d = lijst.get(i).get(1);
-            if(an < c && c < bn && bn < d){
+            if(an < c && c < b1 && bn < d){
                 ArrayList<ArrayList<Integer>> nxy = new ArrayList<ArrayList<Integer>>();
                 nxy.add(new ArrayList<Integer>());
                 nxy.add(new ArrayList<Integer>());
