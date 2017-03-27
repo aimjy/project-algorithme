@@ -31,13 +31,14 @@ public class Select {
     public static ArrayList<Movie> maxRating(ArrayList<Rating> ratingsUser){
         double max_rating = 0.0;
         ArrayList<Movie> maxRatings = new ArrayList<>();
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement maxRating in class Select.");
+        for(int i = 0; i<ratingsUser.size(); i++) {
+            double test = ratingsUser.get(i).getRating();
+            max_rating = (test>max_rating)?test:max_rating;
+        }
+        for(int i = 0; i<ratingsUser.size(); i++) {
+            if(ratingsUser.get(i).getRating() == max_rating) maxRatings.add(ratingsUser.get(i).getMovie());
         }
         return maxRatings;
-        
-        
     }
     /**
      * 
@@ -49,9 +50,51 @@ public class Select {
      */
     public static FixedSizedPriorityQueue relatedMoviesContentBased(ArrayList<Movie> likedMovies, ArrayList<Movie> ratedMovies, ArrayList<Movie> allMovies, int amountOfRelatedMovies){
         FixedSizedPriorityQueue fspq = new FixedSizedPriorityQueue(amountOfRelatedMovies);
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement relatedMoviesContentBased in class Select.");
+        if(amountOfRelatedMovies<=likedMovies.size()) {
+            for(int i = 0; i<amountOfRelatedMovies; i++) {
+                ComparableSimpleEntry temp = new ComparableSimpleEntry((double)likedMovies.get(i).getAmountOfSquareSubSequences(),likedMovies.get(i));
+                fspq.add(temp);
+            }
+        }
+        else {
+            if(amountOfRelatedMovies<=ratedMovies.size()) {
+                for(int i = 0; i<likedMovies.size(); i++) {
+                ComparableSimpleEntry temp = new ComparableSimpleEntry((double)likedMovies.get(i).getAmountOfSquareSubSequences(),likedMovies.get(i));
+                fspq.add(temp);
+                }
+                int toegevoegd = likedMovies.size();
+                int index = 0;
+                while(toegevoegd<amountOfRelatedMovies) {
+                    ComparableSimpleEntry test = new ComparableSimpleEntry((double)ratedMovies.get(index).getAmountOfSquareSubSequences(),ratedMovies.get(index));
+                    if(!fspq.contains(test)) {
+                        fspq.add(test);
+                        toegevoegd++;
+                    }
+                    index++;
+                }
+            }
+            else {
+                if(amountOfRelatedMovies<=allMovies.size()) {
+                    for(int i = 0; i<ratedMovies.size(); i++) {
+                        ComparableSimpleEntry tijdelijk = new ComparableSimpleEntry((double)ratedMovies.get(i).getAmountOfSquareSubSequences(),ratedMovies.get(i));
+                        fspq.add(tijdelijk);
+                    }
+                    int toegevoegd = ratedMovies.size();
+                    int index = 0;
+                    while(toegevoegd<amountOfRelatedMovies) {
+                        ComparableSimpleEntry temp = new ComparableSimpleEntry((double)allMovies.get(index).getAmountOfSquareSubSequences(),allMovies.get(index));
+                        if(!fspq.contains(temp)) {
+                            fspq.add(temp);
+                            toegevoegd++;
+                        }
+                        index++;
+                    }
+                }
+                else {
+                    System.out.println("Er zijn niet zoveel films. Kies een kleiner aantal!");
+                    return null;
+                }
+            }
         }
         return fspq;
     }
