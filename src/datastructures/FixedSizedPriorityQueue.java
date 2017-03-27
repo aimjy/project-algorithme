@@ -33,26 +33,41 @@ public class FixedSizedPriorityQueue extends PriorityQueue<ComparableSimpleEntry
      * 
      * @param e The ComparableSimpleEntry contains as key a double (representing e.g., the distance) and as value an object (e.g., a movie). 
      * The key should be used to determine if an element is added or not when the capacity of the fixed sized priority queue is reached.
+     * @return 
      */
     @Override
     public boolean add(ComparableSimpleEntry e) {
-    	//TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement the function add in class FixedSizedPriorityQueue.");
+    	if(this.elementsLeft > 0) {
+            this.elementsLeft--;
+            this.offer(e);
         }
-        return false;
-    
+        else {
+            if(e.compareTo(this.peek()) > 0) {
+                this.poll();
+                this.offer(e);
+            }
+            else return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         //TODO: Delete exception and implement here
         // Do this in such way that the first element printed is the most important one (e.g. the movie with the smallest distances (key))
-        if (true){
-            throw new UnsupportedOperationException("Implement toString in class FixedSizedPriorityQueue.");
+        String terug = "";
+        FixedSizedPriorityQueue temp = new FixedSizedPriorityQueue(this.elementsLeft);
+        temp = this;
+        ComparableSimpleEntry [] lolz = new ComparableSimpleEntry[this.size()+this.elementsLeft];
+        for(int i = temp.size()+temp.elementsLeft-1; i>=0; i--) {
+            ComparableSimpleEntry head = temp.poll();
+            lolz[i] = new ComparableSimpleEntry(head.getKey(),head.getValue());
         }
-        
-        return "";
+        for(int i = 0; i<this.size()+this.elementsLeft; i++) {
+            terug.concat(lolz[i].toString());
+            terug.concat(" || ");
+        }
+        return terug;
     }
     
     
