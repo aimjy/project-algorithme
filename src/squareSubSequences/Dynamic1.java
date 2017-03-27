@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package squareSubsequences;
+package squareSubSequences;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class Dynamic1 {
         }
         ArrayList<ArrayList<Integer>> temp = findSubsequences(s, 0);
         ArrayList<ArrayList<ArrayList<Integer>>> temp2 = combine(temp, 0);
-        temp2.add(temp);
+       /* temp2.add(temp);    //werkt niet*/
         System.out.println("Aantal square subquences: "+ temp2.size());
         for(int i = 0; i<temp2.size(); i++){
             for(int j = 0; j<temp2.get(i).size(); j++){
@@ -39,9 +39,12 @@ public class Dynamic1 {
             }
             System.out.println("--------------------------------");
         }
-        return temp2.size();
+        //return temp2.size();
+       return temp.size() + temp2.size();
     }
-    
+    /*************************
+     * geeft een array terug van alle paren van gelijke letters
+    **************************/
     private static ArrayList<ArrayList<Integer>> findSubsequences(String a, int index) {
         ArrayList<ArrayList<Integer>> lijst = new ArrayList<ArrayList<Integer>>();
         for(int i = index+1; i<a.length(); i++) {
@@ -56,6 +59,9 @@ public class Dynamic1 {
         return lijst;
     }
     
+    /****************
+     * geeft een array terug van de mogelijke alle mogelijke cobminaties van letters samen
+     ****************/
     private static ArrayList<ArrayList<ArrayList<Integer>>> combine(ArrayList<ArrayList<Integer>> lijst, int index) {
         ArrayList<ArrayList<ArrayList<Integer>>> combinaties = new ArrayList<ArrayList<ArrayList<Integer>>>();
         for(int i = index+1; i<lijst.size(); i++) {
@@ -77,14 +83,18 @@ public class Dynamic1 {
         return combinaties;
     }
     
+    /*
+    * een hulpfunctie om Combine recursief te doen werken 
+    */
     private static ArrayList<ArrayList<ArrayList<Integer>>> nCombine(ArrayList<ArrayList<Integer>> xy, ArrayList<ArrayList<Integer>> lijst){
         ArrayList<ArrayList<ArrayList<Integer>>> alleCombinaties = new ArrayList<ArrayList<ArrayList<Integer>>>();
         for(int i = 0; i<lijst.size(); i++){
             int an = xy.get(0).get(xy.get(0).size()-1);
+            int b1 = xy.get(1).get(0);
             int bn = xy.get(1).get(xy.get(1).size()-1);
             int c = lijst.get(i).get(0);
             int d = lijst.get(i).get(1);
-            if(an < c && c < bn && bn < d){
+            if(an < c && c < b1 && bn < d){
                 ArrayList<ArrayList<Integer>> nxy = new ArrayList<ArrayList<Integer>>();
                 nxy.add(new ArrayList<Integer>());
                 nxy.add(new ArrayList<Integer>());
@@ -97,5 +107,6 @@ public class Dynamic1 {
             }
         }
         return alleCombinaties;
+        //test2
     }
 }
