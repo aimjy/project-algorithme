@@ -25,22 +25,41 @@ public class Dynamic1 {
             System.out.println("Empty string!");
             return 0;
         }
+        
         ArrayList<ArrayList<Integer>> temp = findSubsequences(s, 0);
         ArrayList<ArrayList<ArrayList<Integer>>> temp2 = combine(temp, 0);
-       /* temp2.add(temp);    //werkt niet*/
-        System.out.println("Aantal square subquences: "+ temp2.size());
-        for(int i = 0; i<temp2.size(); i++){
-            for(int j = 0; j<temp2.get(i).size(); j++){
-                for(int k = 0; k<temp2.get(i).get(j).size(); k++){
-                    System.out.print(temp2.get(i).get(j).get(k));
-                    System.out.print(" ");
+        System.out.println(s + ":");
+        System.out.println("Aantal square subquences: "+ (temp.size() + temp2.size()));
+        
+        for(int i = 0; i < temp.size(); i++){
+            for(int j = 0; j<s.length(); j++){
+                if(temp.get(i).contains(new Integer(j))){
+                    System.out.print("\u001B[42m" + s.charAt(j) + "\033[0m");
+                }else{
+                    System.out.print(s.charAt(j));
                 }
-                System.out.println();
             }
-            System.out.println("--------------------------------");
+            System.out.println("\n---------------------------");
         }
-        //return temp2.size();
-       return temp.size() + temp2.size();
+        for(int i = 0; i<temp2.size(); i++){
+            for(int j = 0; j<s.length(); j++){
+                int v = -1;
+                for(int k = 0; k<temp2.get(i).size(); k++){
+                    for(int l = 0; l<temp2.get(i).get(k).size(); l++){
+                        if(j == temp2.get(i).get(k).get(l)) v = l;
+                    }
+                }
+                if(v == -1){
+                    System.out.print(s.charAt(j));
+                }else{
+                    v += 42;
+                    System.out.print("\u001B[" + v + "m" + s.charAt(j) + "\033[0m");
+                    v = -1;
+                }
+            }
+            System.out.println("\n--------------------------");
+        }
+       return (temp.size() + temp2.size());
     }
     /*************************
      * geeft een array terug van alle paren van gelijke letters
