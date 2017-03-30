@@ -1,6 +1,6 @@
 package datastructures;
 
-import java.util.PriorityQueue;
+import java.util.*;
 /**
  * 
  * FixedSizePriorityQueue<T> is a class responsible for maintaining in order the 'elementsLeft' smallest items.
@@ -33,45 +33,52 @@ public class FixedSizedPriorityQueue extends PriorityQueue<ComparableSimpleEntry
      * 
      * @param e The ComparableSimpleEntry contains as key a double (representing e.g., the distance) and as value an object (e.g., a movie). 
      * The key should be used to determine if an element is added or not when the capacity of the fixed sized priority queue is reached.
-     * @return 
+     * @return
      */
     @Override
     public boolean add(ComparableSimpleEntry e) {
-    	if(this.elementsLeft > 0) {
-            this.elementsLeft--;
-            this.offer(e);
+        if(this.isEmpty()) {
+            super.add(e);
+            return true;
         }
-        else {
-            if(e.compareTo(this.peek()) > 0) {
-                this.poll();
-                this.offer(e);
+        if(this.elementsLeft == 0) {
+            if(this.peek().getKey()<=e.getKey()) return false;
+        }
+        int i;
+        ArrayList<ComparableSimpleEntry> temp = new ArrayList<ComparableSimpleEntry>();
+        Iterator<ComparableSimpleEntry> it = this.iterator();
+        boolean toegevoegd = false;
+        while(it.hasNext()) {
+            ComparableSimpleEntry tijdelijk = it.next();
+            if(!toegevoegd && e.getKey()<tijdelijk.getKey()) {
+                temp.add(e);
+                toegevoegd = true;
             }
-            else return false;
+            temp.add(tijdelijk);
+        }
+        this.clear();
+        if(this.elementsLeft>0) {
+            this.elementsLeft--;
+            i= temp.size()-1;
+        }
+        else i = temp.size()-2;
+        while(i>=0) {
+            super.add(temp.get(i));
+            i--;
         }
         return true;
     }
 
     @Override
     public String toString() {
-        //TODO: Delete exception and implement here
-        // Do this in such way that the first element printed is the most important one (e.g. the movie with the smallest distances (key))
-        String terug = "";
-        FixedSizedPriorityQueue temp = new FixedSizedPriorityQueue(this.elementsLeft);
-        temp = this;
-        ComparableSimpleEntry [] lolz = new ComparableSimpleEntry[this.size()+this.elementsLeft];
-        for(int i = temp.size()+temp.elementsLeft-1; i>=0; i--) {
-            ComparableSimpleEntry head = temp.poll();
-            lolz[i] = new ComparableSimpleEntry(head.getKey(),head.getValue());
-        }
-        for(int i = 0; i<this.size()+this.elementsLeft; i++) {
-            terug.concat(lolz[i].toString());
-            terug.concat(" || ");
-        }
-        return terug;
+            //TODO: Delete exception and implement here
+            // Do this in such way that the first element printed is the most important one (e.g. the movie with the smallest distances (key))
+            String terug = "";
+            Iterator<ComparableSimpleEntry> it = this.iterator();
+            while(it.hasNext()) {
+            terug.concat(it.next().getValue().toString());
+            terug.concat("\n");
+            }
+            return terug;
+        } 
     }
-    
-    
-    
-            
-
-}
