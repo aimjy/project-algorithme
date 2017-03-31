@@ -50,52 +50,41 @@ public class Select {
      */
     public static FixedSizedPriorityQueue relatedMoviesContentBased(ArrayList<Movie> likedMovies, ArrayList<Movie> ratedMovies, ArrayList<Movie> allMovies, int amountOfRelatedMovies){
         FixedSizedPriorityQueue fspq = new FixedSizedPriorityQueue(amountOfRelatedMovies);
-        if(amountOfRelatedMovies<=likedMovies.size()) {
-            for(int i = 0; i<amountOfRelatedMovies; i++) {
-                ComparableSimpleEntry temp = new ComparableSimpleEntry((double)likedMovies.get(i).getAmountOfSquareSubSequences(),likedMovies.get(i));
-                fspq.add(temp);
-            }
-        }
-        else {
-            if(amountOfRelatedMovies<=ratedMovies.size()) {
-                for(int i = 0; i<likedMovies.size(); i++) {
-                ComparableSimpleEntry temp = new ComparableSimpleEntry((double)likedMovies.get(i).getAmountOfSquareSubSequences(),likedMovies.get(i));
-                fspq.add(temp);
-                }
-                int toegevoegd = likedMovies.size();
-                int index = 0;
-                while(toegevoegd<amountOfRelatedMovies) {
-                    ComparableSimpleEntry test = new ComparableSimpleEntry((double)ratedMovies.get(index).getAmountOfSquareSubSequences(),ratedMovies.get(index));
-                    if(!fspq.contains(test)) {
-                        fspq.add(test);
-                        toegevoegd++;
-                    }
-                    index++;
-                }
-            }
-            else {
-                if(amountOfRelatedMovies<=allMovies.size()) {
-                    for(int i = 0; i<ratedMovies.size(); i++) {
-                        ComparableSimpleEntry tijdelijk = new ComparableSimpleEntry((double)ratedMovies.get(i).getAmountOfSquareSubSequences(),ratedMovies.get(i));
-                        fspq.add(tijdelijk);
-                    }
-                    int toegevoegd = ratedMovies.size();
-                    int index = 0;
-                    while(toegevoegd<amountOfRelatedMovies) {
-                        ComparableSimpleEntry temp = new ComparableSimpleEntry((double)allMovies.get(index).getAmountOfSquareSubSequences(),allMovies.get(index));
-                        if(!fspq.contains(temp)) {
-                            fspq.add(temp);
-                            toegevoegd++;
+        Movie[] temp = new Movie[amountOfRelatedMovies];
+        boolean niet_vol = true;
+        for(int i = 0; i<allMovies.size(); i++) {
+            Movie vgl = allMovies.get(i);
+            if(!ratedMovies.contains(vgl)) {
+                if(niet_vol) {
+                    int j = 0;
+                    boolean toegevoegd = false;
+                    while(j<amountOfRelatedMovies && !toegevoegd) {
+                        if(temp[j] == null) {
+                            toegevoegd = true;
+                            temp[j] = vgl;
                         }
-                        index++;
+                        j++;
                     }
+                    niet_vol = !(j == amountOfRelatedMovies);
                 }
                 else {
-                    System.out.println("Er zijn niet zoveel films. Kies een kleiner aantal!");
-                    return null;
+                    int max_index = 0;
+                    for(int k = 1; k<amountOfRelatedMovies; k++) {
+                        if (Calculate.distanceToRelatedMoviesContentBased(temp[k], likedMovies) > Calculate.distanceToRelatedMoviesContentBased(temp[max_index], likedMovies)) {
+                            max_index = k;
+                        }
+                    }
+                    if(Calculate.distanceToRelatedMoviesContentBased(vgl, likedMovies)< Calculate.distanceToRelatedMoviesContentBased(temp[max_index],likedMovies)) {
+                        temp[max_index] = vgl;
+                    }
                 }
             }
         }
+        for(int l = 0; l<amountOfRelatedMovies; l++) {
+                Movie film = temp[l];
+                ComparableSimpleEntry voeg_toe = new ComparableSimpleEntry((double)Calculate.distanceToRelatedMoviesContentBased(film, likedMovies),film);
+                fspq.add(voeg_toe);
+            }
         return fspq;
     }
     
@@ -117,8 +106,3 @@ public class Select {
         }
         return fspq;
     }
-
-    
-    
-    
-}
