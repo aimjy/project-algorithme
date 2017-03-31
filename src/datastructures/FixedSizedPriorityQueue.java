@@ -1,6 +1,6 @@
 package datastructures;
 
-import java.util.PriorityQueue;
+import java.util.*;
 /**
  * 
  * FixedSizePriorityQueue<T> is a class responsible for maintaining in order the 'elementsLeft' smallest items.
@@ -33,7 +33,7 @@ public class FixedSizedPriorityQueue extends PriorityQueue<ComparableSimpleEntry
      * 
      * @param e The ComparableSimpleEntry contains as key a double (representing e.g., the distance) and as value an object (e.g., a movie). 
      * The key should be used to determine if an element is added or not when the capacity of the fixed sized priority queue is reached.
-     * @return 
+     * @return
      */
     @Override
     public boolean add(ComparableSimpleEntry e) {
@@ -51,27 +51,22 @@ public class FixedSizedPriorityQueue extends PriorityQueue<ComparableSimpleEntry
         return true;
     }
 
+
     @Override
     public String toString() {
-        //TODO: Delete exception and implement here
-        // Do this in such way that the first element printed is the most important one (e.g. the movie with the smallest distances (key))
-        String terug = "";
-        FixedSizedPriorityQueue temp = new FixedSizedPriorityQueue(this.elementsLeft);
-        temp = this;
-        ComparableSimpleEntry [] lolz = new ComparableSimpleEntry[this.size()+this.elementsLeft];
-        for(int i = temp.size()+temp.elementsLeft-1; i>=0; i--) {
-            ComparableSimpleEntry head = temp.poll();
-            lolz[i] = new ComparableSimpleEntry(head.getKey(),head.getValue());
-        }
-        for(int i = 0; i<this.size()+this.elementsLeft; i++) {
-            terug.concat(lolz[i].toString());
-            terug.concat(" || ");
-        }
-        return terug;
+            //TODO: Delete exception and implement here
+            // Do this in such way that the first element printed is the most important one (e.g. the movie with the smallest distances (key))
+            String terug = "";
+            ArrayList<ComparableSimpleEntry> lijst = new ArrayList<>();
+            int lengte = this.size();
+            for(int j = 0; j<lengte; j++) {
+                lijst.add(this.poll());
+            }
+            for(int i = lijst.size()-1; i>=0; i--) {
+                this.offer(lijst.get(i));
+                terug = terug.concat(lijst.get(i).getValue().toString());
+                terug = terug.concat("\n");
+            }
+            return terug;
+        } 
     }
-    
-    
-    
-            
-
-}
