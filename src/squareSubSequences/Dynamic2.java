@@ -21,28 +21,37 @@ public class Dynamic2 {
     * @return The amount of square subsequences in string s is returned. 
     */
     public static int amountOfSquareSubSequences(String s){
-        //TODO: Delete exception and implement here
-        ArrayList<String> yolo = subSequences(s, 0, 1, new ArrayList<Integer>());
-        for(int i = 0; i<yolo.size(); i++)System.out.println(yolo.get(i));
-        
-        return yolo.size();
+        int totaal = 0;
+        for(int i = 0; i<s.length()-1; i++){
+            totaal += telSubSequences(s.substring(0,i+1), s.substring(i+1, s.length()));
+        }
+        System.out.println(s + ": " + totaal);
+        return totaal;
     }
     
-    public static ArrayList<String> subSequences(String s, int x, int y, ArrayList<Integer> ban){
-        ArrayList<String> opl = new ArrayList<String>();
-        if(y < s.length() &&  !ban.contains(new Integer(x))){
-            for(int i = y; i<s.length(); i++){
-                if(s.charAt(x) == s.charAt(i)){
-                    opl.add(s.substring(x,x+1));
-                    ban.add(i);
-                    ArrayList<String> temp = subSequences(s, x+1, i+1, ban);
-                    for(String a: temp) opl.add(s.substring(x,x+1).concat(a));
-                    ban.remove(new Integer(i));
+    private static int telSubSequences(String s1, String s2){
+        int[][] aantal = new int[s1.length()][s2.length()];
+        
+        for(int i = 0; i<s1.length(); i++){
+            if(s1.charAt(i) == s2.charAt(0))
+                aantal[i][0] = 1;
+            if(i>0)
+                aantal[i][0] += aantal[i-1][0];
+        }
+        
+        for(int i = 0; i<s1.length(); i++){
+            for(int j = 1; j<s2.length(); j++){
+                if(i == 0) aantal[i][j] = aantal[i][j-1];
+                else{
+                    aantal[i][j] = aantal[i-1][j] + aantal[i][j-1] - aantal[i-1][j-1];
+                    if(s1.charAt(i) == s2.charAt(j)){
+                        aantal[i][j] += aantal[i-1][j-1];
+                    }
                 }
             }
-            opl.addAll(subSequences(s,x+1,y+1,ban));
         }
-        return opl;
-        //git-test
+        
+        return aantal[s1.length() - 1][s2.length() - 1];   
+        
     }
 }
