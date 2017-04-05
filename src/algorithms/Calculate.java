@@ -118,13 +118,32 @@ public class Calculate {
     
     public static Object[] ratingToArray(ArrayList<Rating> movie1, ArrayList<Rating> movie2){
         boolean inCommonRatings = false;
-        
         ArrayList<Double> r1 = new ArrayList<>();
         ArrayList<Double> r2 = new ArrayList<>();
                 
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement ratingToArray in class Calculate.");
+        for(int i = 0; i<movie1.size(); i++) {
+            Rating temp = movie1.get(i);
+            int j = 0;
+            boolean gevonden = false;
+            while(!gevonden && j<movie2.size()) {
+                if(temp.getUser() == movie2.get(j).getUser()) {
+                    gevonden = true;
+                    inCommonRatings = true;
+                    r1.add(temp.getRating());
+                    r2.add(movie2.get(j).getRating());
+                    movie2.remove(j);
+                }
+                j++;
+            }
+            if(!gevonden) {
+                r1.add(temp.getRating());
+                r2.add(2.5);
+            }
+        }
+        
+        for(int k = 0; k<movie2.size(); k++) {
+            r1.add(2.5);
+            r2.add(movie2.get(k).getRating());
         }
         
         Object[] result = new Object[3];
@@ -145,13 +164,17 @@ public class Calculate {
         ArrayList<Double> a1 = (ArrayList<Double>) result[0];
         ArrayList<Double> a2 = (ArrayList<Double>) result[1];
         boolean inCommonRatings = (boolean) result[2];
-        
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement cosineDistance in class Calculate.");
-        }
-        return 0.0;
-        
+        if(inCommonRatings) {
+            int teller = 0;
+            int noemer1 = 0;
+            int noemer2 = 0;
+            for(int i = 0; i<a1.size(); i++) {
+                teller += a1.get(i)*a2.get(i);
+                noemer1 += a1.get(i)*a1.get(i);
+                noemer2 += a2.get(i)*a2.get(i);
+            }
+            return 1-teller/Math.sqrt(noemer1)/Math.sqrt(noemer2);
+        }else  return Integer.MAX_VALUE;
     }
     
     /**
