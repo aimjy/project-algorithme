@@ -118,32 +118,35 @@ public class Calculate {
     
     public static Object[] ratingToArray(ArrayList<Rating> movie1, ArrayList<Rating> movie2){
         boolean inCommonRatings = false;
+        ArrayList<Rating> movie2Copy = new ArrayList<Rating>(movie2.size());
+        for(Rating r: movie2) movie2Copy.add(r);
         ArrayList<Double> r1 = new ArrayList<>();
         ArrayList<Double> r2 = new ArrayList<>();
                 
         for(int i = 0; i<movie1.size(); i++) {
             Rating temp = movie1.get(i);
-            int j = 0;
+           int j = 0;
             boolean gevonden = false;
-            while(!gevonden && j<movie2.size()) {
-                if(temp.getUser() == movie2.get(j).getUser()) {
+            while(!gevonden && j<movie2Copy.size()) {
+                if(temp.getUser() == movie2Copy.get(j).getUser()) {
                     gevonden = true;
                     inCommonRatings = true;
                     r1.add(temp.getRating());
-                    r2.add(movie2.get(j).getRating());
-                    movie2.remove(j);
+                    r2.add(movie2Copy.get(j).getRating());
+                    movie2Copy.remove(j);
                 }
                 j++;
             }
+            
             if(!gevonden) {
                 r1.add(temp.getRating());
                 r2.add(2.5);
             }
         }
         
-        for(int k = 0; k<movie2.size(); k++) {
+        for(int k = 0; k<movie2Copy.size(); k++) {
             r1.add(2.5);
-            r2.add(movie2.get(k).getRating());
+            r2.add(movie2Copy.get(k).getRating());
         }
         
         Object[] result = new Object[3];
@@ -191,7 +194,7 @@ public class Calculate {
         
         if(inCommonRatings){
             double sumOfSquare = 0.0;
-            double distance = 0.0;
+            double distance;
             for(int i = 0; i<a1.size(); i++){
                 sumOfSquare += (a2.get(i) - a1.get(i))*(a2.get(i) - a1.get(i));
             }
