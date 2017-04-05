@@ -165,16 +165,16 @@ public class Calculate {
         ArrayList<Double> a2 = (ArrayList<Double>) result[1];
         boolean inCommonRatings = (boolean) result[2];
         if(inCommonRatings) {
-            int teller = 0;
-            int noemer1 = 0;
-            int noemer2 = 0;
+            double teller = 0;
+            double noemer1 = 0;
+            double noemer2 = 0;
             for(int i = 0; i<a1.size(); i++) {
                 teller += a1.get(i)*a2.get(i);
                 noemer1 += a1.get(i)*a1.get(i);
                 noemer2 += a2.get(i)*a2.get(i);
             }
             return 1-teller/Math.sqrt(noemer1)/Math.sqrt(noemer2);
-        }else  return Integer.MAX_VALUE;
+        }else  return Double.POSITIVE_INFINITY;
     }
     
     /**
@@ -189,12 +189,17 @@ public class Calculate {
         ArrayList<Double> a2 = (ArrayList<Double>) result[1];
         boolean inCommonRatings = (boolean) result[2];
         
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement euclideanDistance in class Calculate.");
+        if(inCommonRatings){
+            double sumOfSquare = 0.0;
+            double distance = 0.0;
+            for(int i = 0; i<a1.size(); i++){
+                sumOfSquare += (a2.get(i) - a1.get(i))*(a2.get(i) - a1.get(i));
+            }
+            distance = Math.sqrt(sumOfSquare);
+            return distance;
         }
         
-        return 0.0;
+        return Double.POSITIVE_INFINITY;
         
     }
 
