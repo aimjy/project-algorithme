@@ -82,8 +82,8 @@ public class Calculate {
             for(Rating r: ratings){
                 User u = r.getUser();
                 if(!usersAlreadyRate.contains(u)){                      // zie: http://math.stackexchange.com/questions/106700/incremental-averageing
-                    double huidigeScore = ratingsMovie.get(u.getId());
-                    int aantal = amountUsersRatedMovie.get(u.getId());
+                    double huidigeScore = ratingsMovie.get(u);
+                    int aantal = amountUsersRatedMovie.get(u);
                     aantal++;
                     amountUsersRatedMovie.put(u, aantal);
                     double extraScore = r.getRating();
@@ -121,14 +121,23 @@ public class Calculate {
             ArrayList<Rating> ratings = ratingsIndexedByMovie.get(m.getId());
             for(Rating r: ratings){
                 User u = r.getUser();
-                if(!usersAlreadyRate.contains(u)){      //nog correct schrijven...
-                    double huidigeScore = ratingsMovie.get(u.getId());
+                if(!usersAlreadyRate.contains(u)){ 
+                    double huidigeScore = ratingsMovie.get(u);
                     double extraScore = r.getRating();
                     double nieuweScore = huidigeScore + (copySimilarToA.length - i) * extraScore;
-                    amountUsersRatedMovie.put(u, nieuweScore);
+                    ratingsMovie.put(u, nieuweScore);
+                    double totaal = amountUsersRatedMovie.get(u);
+                    totaal += copySimilarToA.length - i;
+                    amountUsersRatedMovie.put(u, totaal);
                 }
                 
             }
+        }
+        
+        for(User u: ratingsMovie.keySet()){
+            double Score = ratingsMovie.get(u);
+            Score /= amountUsersRatedMovie.get(u);
+            ratingsMovie.put(u, Score);
         }
         
         return ratingsMovie;
