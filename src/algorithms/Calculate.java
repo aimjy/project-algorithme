@@ -68,11 +68,27 @@ public class Calculate {
     public static HashMap<User, Double> ratingBasedOnSimilarMovies(Movie a, FixedSizedPriorityQueue similarToA, HashMap<Integer,ArrayList<Rating>> ratingsIndexedByMovie) throws Exception{
 
         HashMap<User, Double> ratingsMovie = new HashMap<>();
-        HashMap<User, Integer> amountUsersRatedMovie = new HashMap<>();
+        HashMap<User, Double> amountUsersRatedMovie = new HashMap<>();
+        ComparableSimpleEntry[] copySimilarToA = (ComparableSimpleEntry[]) similarToA.toArray();
+        ArrayList<User> usersAlreadyRate = new ArrayList<User>();
         
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement ratingBasedOnSimilarMovies in class Calculate.");
+        for(int i = 0; i< ratingsIndexedByMovie.get(a.getId()).size() ; i++){
+            usersAlreadyRate.add(ratingsIndexedByMovie.get(a.getId()).get(i).getUser());
+        }
+        
+        for(int i = 0; i<copySimilarToA.length; i++){
+            Movie m = (Movie) copySimilarToA[i].getValue();
+            ArrayList<Rating> ratings = ratingsIndexedByMovie.get(m.getId());
+            for(Rating r: ratings){
+                User u = r.getUser();
+                if(!usersAlreadyRate.contains(u)){
+                    double huidigeScore = amountUsersRatedMovie.get(u.getId());
+                    double extraScore = r.getRating();
+                    double nieuweScore = huidigeScore + extraScore;
+                    amountUsersRatedMovie.put(u, nieuweScore);
+                }
+                
+            }
         }
         
         return ratingsMovie;
@@ -90,10 +106,26 @@ public class Calculate {
 
         HashMap<User, Double> ratingsMovie = new HashMap<>();
         HashMap<User, Double> amountUsersRatedMovie = new HashMap<>();
+        ComparableSimpleEntry[] copySimilarToA = (ComparableSimpleEntry[]) similarToA.toArray();
+        ArrayList<User> usersAlreadyRate = new ArrayList<User>();
         
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement ratingBasedOnSimilarMoviesWeighted in class Calculate.");
+        for(int i = 0; i< ratingsIndexedByMovie.get(a.getId()).size() ; i++){
+            usersAlreadyRate.add(ratingsIndexedByMovie.get(a.getId()).get(i).getUser());
+        }
+        
+        for(int i = 0; i<copySimilarToA.length; i++){
+            Movie m = (Movie) copySimilarToA[i].getValue();
+            ArrayList<Rating> ratings = ratingsIndexedByMovie.get(m.getId());
+            for(Rating r: ratings){
+                User u = r.getUser();
+                if(!usersAlreadyRate.contains(u)){
+                    double huidigeScore = amountUsersRatedMovie.get(u.getId());
+                    double extraScore = r.getRating();
+                    double nieuweScore = huidigeScore + (copySimilarToA.length - i) * extraScore;
+                    amountUsersRatedMovie.put(u, nieuweScore);
+                }
+                
+            }
         }
         
         return ratingsMovie;
