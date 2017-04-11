@@ -68,7 +68,7 @@ public class Calculate {
     public static HashMap<User, Double> ratingBasedOnSimilarMovies(Movie a, FixedSizedPriorityQueue similarToA, HashMap<Integer,ArrayList<Rating>> ratingsIndexedByMovie) throws Exception{
 
         HashMap<User, Double> ratingsMovie = new HashMap<>();
-        HashMap<User, Double> amountUsersRatedMovie = new HashMap<>();
+        HashMap<User, Integer> amountUsersRatedMovie = new HashMap<>();
         ComparableSimpleEntry[] copySimilarToA = (ComparableSimpleEntry[]) similarToA.toArray();
         ArrayList<User> usersAlreadyRate = new ArrayList<User>();
         
@@ -81,11 +81,14 @@ public class Calculate {
             ArrayList<Rating> ratings = ratingsIndexedByMovie.get(m.getId());
             for(Rating r: ratings){
                 User u = r.getUser();
-                if(!usersAlreadyRate.contains(u)){
-                    double huidigeScore = amountUsersRatedMovie.get(u.getId());
+                if(!usersAlreadyRate.contains(u)){                      // zie: http://math.stackexchange.com/questions/106700/incremental-averageing
+                    double huidigeScore = ratingsMovie.get(u.getId());
+                    int aantal = amountUsersRatedMovie.get(u.getId());
+                    aantal++;
+                    amountUsersRatedMovie.put(u, aantal);
                     double extraScore = r.getRating();
-                    double nieuweScore = huidigeScore + extraScore;
-                    amountUsersRatedMovie.put(u, nieuweScore);
+                    double nieuweScore = huidigeScore + (extraScore - huidigeScore)/aantal;
+                    ratingsMovie.put(u, nieuweScore);
                 }
                 
             }
@@ -118,8 +121,8 @@ public class Calculate {
             ArrayList<Rating> ratings = ratingsIndexedByMovie.get(m.getId());
             for(Rating r: ratings){
                 User u = r.getUser();
-                if(!usersAlreadyRate.contains(u)){
-                    double huidigeScore = amountUsersRatedMovie.get(u.getId());
+                if(!usersAlreadyRate.contains(u)){      //nog correct schrijven...
+                    double huidigeScore = ratingsMovie.get(u.getId());
                     double extraScore = r.getRating();
                     double nieuweScore = huidigeScore + (copySimilarToA.length - i) * extraScore;
                     amountUsersRatedMovie.put(u, nieuweScore);
