@@ -24,7 +24,7 @@ import java.util.Map;
 public class CollaborativeFiltering {
     
     public static void main(String[] args) throws IOException, Exception {
-        int debug = 4; // The number of the scenario you want to debug
+        int debug = 5; // The number of the scenario you want to debug
         
         // ******************  Scenario 0: Reading the data. ********************************************** 
         // QUESTION: Before starting the data must be read, this is done by putting the data in HashMaps. Can you explain why this is interesting? 
@@ -85,7 +85,7 @@ public class CollaborativeFiltering {
         // ******************  Scenario 2: calculate the distance between two movies **********************************************
         // QUESTION: Can you give an example where the cosine distance is totally wrong? (So you see that the movies are not similar at all, but nevertheless the distance is zero)
         if(debug == 2){
-            double d = Calculate.distanceBetweenTwoMovies(ratingsIndexedByMovie.get(1), ratingsIndexedByMovie.get(4),"cosine");
+           double d = Calculate.distanceBetweenTwoMovies(ratingsIndexedByMovie.get(1), ratingsIndexedByMovie.get(4),"cosine");
             if(d != (1 - 35/Math.sqrt(38.25)/Math.sqrt(35.25))){
                 System.out.println("The cosine distance is wrong");
             }

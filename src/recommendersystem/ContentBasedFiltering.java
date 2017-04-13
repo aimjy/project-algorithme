@@ -18,8 +18,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import squareSubsequences.Dynamic2;
-import squareSubsequences.Dynamic1;
+import squareSubSequences.Dynamic2;
+import squareSubSequences.Dynamic1;
 
 /**
  *
@@ -29,7 +29,7 @@ public class ContentBasedFiltering {
     
     
     public static void main(String[] args) throws IOException {
-        int debug = 3; // The number of the scenario you want to debug
+        int debug = 1; // The number of the scenario you want to debug
         
         // ******************  Scenario 0: Reading the data. ********************************************** 
         // QUESTION: Before starting the data must be read, this is done by putting the data in HashMaps. Can you explain why this is interesting? 
@@ -56,7 +56,7 @@ public class ContentBasedFiltering {
 	// QUESTION: For the first dynamic approach, give me a worst case example.
 	// QUESTION: If you implemented the second approach, compute its complexity.
         
-        boolean dynamic1 = true; // True: you implemented the recursive way, False: you implemented the dynamic way
+        boolean dynamic1 = false; // True: you implemented the recursive way, False: you implemented the dynamic way
         
         // Iterate over all movies, calculate the amount of square subsequences, and set it as an attribute of the movie      
         for(Movie m: movies.values()){
@@ -84,7 +84,8 @@ public class ContentBasedFiltering {
                 String aLine = textReader.readLine();
                 int correctAnswer = Integer.parseInt(textReaderOutput.readLine());
                 int ourAnswer;
-                if(recursive){
+                if(dynamic1){
+                System.out.println("yolo");
                     ourAnswer = Dynamic1.amountOfSquareSubSequences(aLine);
                 } else{
                     ourAnswer = Dynamic2.amountOfSquareSubSequences(aLine);
@@ -110,7 +111,7 @@ public class ContentBasedFiltering {
         
         // ******************  Scenario 3: The FixedSizedPriorityQueue ********************************************** 
         
-        if(debug == 2){
+        if(debug == 3){
             int sizeFspqTest = 3;
             FixedSizedPriorityQueue fspqTest = new FixedSizedPriorityQueue(sizeFspqTest);
             
