@@ -98,11 +98,15 @@ public class Select {
      * @throws Exception 
      */
     public static FixedSizedPriorityQueue relatedMoviesCollaborative(Movie likedMovie, ArrayList<Movie> allMovies, HashMap<Integer,ArrayList<Rating>> ratingsIndexedByMovie, int amountOfRelatedMovies) throws Exception{
-        FixedSizedPriorityQueue fspq = new FixedSizedPriorityQueue(amountOfRelatedMovies);
-               
-        //TODO: Delete exception and implement here
-        if (true){
-            throw new UnsupportedOperationException("Implement relatedMoviesContentBased in class Select.");
+       FixedSizedPriorityQueue fspq = new FixedSizedPriorityQueue(amountOfRelatedMovies);
+        ArrayList<Rating> ratingsLikedMovie = ratingsIndexedByMovie.get(likedMovie.getId());
+        
+        for(int i = 0; i<allMovies.size(); i++) {
+            ArrayList<Rating> tempo = ratingsIndexedByMovie.get(allMovies.get(i).getId());
+            double afstand = Calculate.distanceBetweenTwoMovies(ratingsLikedMovie, tempo, "cosine");
+            ComparableSimpleEntry temp = new ComparableSimpleEntry(afstand,allMovies.get(i));
+            fspq.add(temp);
         }
+        
         return fspq;
     }
