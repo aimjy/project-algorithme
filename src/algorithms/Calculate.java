@@ -69,7 +69,8 @@ public class Calculate {
 
         HashMap<User, Double> ratingsMovie = new HashMap<>();
         HashMap<User, Integer> amountUsersRatedMovie = new HashMap<>();
-        ComparableSimpleEntry[] copySimilarToA = (ComparableSimpleEntry[]) similarToA.toArray();
+        ComparableSimpleEntry[] copySimilarToA = new ComparableSimpleEntry[similarToA.size()];
+        similarToA.toArray(copySimilarToA);
         ArrayList<User> usersAlreadyRate = new ArrayList<User>();
         
         for(int i = 0; i< ratingsIndexedByMovie.get(a.getId()).size() ; i++){
@@ -82,8 +83,12 @@ public class Calculate {
             for(Rating r: ratings){
                 User u = r.getUser();
                 if(!usersAlreadyRate.contains(u)){                      // zie: http://math.stackexchange.com/questions/106700/incremental-averageing
-                    double huidigeScore = ratingsMovie.get(u);
-                    int aantal = amountUsersRatedMovie.get(u);
+                    double huidigeScore = 0.0;
+                    if(ratingsMovie.containsKey(u))
+                        huidigeScore = ratingsMovie.get(u);
+                    int aantal = 0;
+                    if(amountUsersRatedMovie.containsKey(u))
+                        aantal = amountUsersRatedMovie.get(u);
                     aantal++;
                     amountUsersRatedMovie.put(u, aantal);
                     double extraScore = r.getRating();
@@ -109,7 +114,8 @@ public class Calculate {
 
         HashMap<User, Double> ratingsMovie = new HashMap<>();
         HashMap<User, Double> amountUsersRatedMovie = new HashMap<>();
-        ComparableSimpleEntry[] copySimilarToA = (ComparableSimpleEntry[]) similarToA.toArray();
+        ComparableSimpleEntry[] copySimilarToA = new ComparableSimpleEntry[similarToA.size()];
+        similarToA.toArray(copySimilarToA);
         ArrayList<User> usersAlreadyRate = new ArrayList<User>();
         
         for(int i = 0; i< ratingsIndexedByMovie.get(a.getId()).size() ; i++){
@@ -122,11 +128,15 @@ public class Calculate {
             for(Rating r: ratings){
                 User u = r.getUser();
                 if(!usersAlreadyRate.contains(u)){ 
-                    double huidigeScore = ratingsMovie.get(u);
+                    double huidigeScore = 0.0;
+                    if(ratingsMovie.containsKey(u))
+                        huidigeScore = ratingsMovie.get(u);
                     double extraScore = r.getRating();
                     double nieuweScore = huidigeScore + (copySimilarToA.length - i) * extraScore;
                     ratingsMovie.put(u, nieuweScore);
-                    double totaal = amountUsersRatedMovie.get(u);
+                    double totaal = 0.0;
+                    if(amountUsersRatedMovie.containsKey(u))
+                        totaal = amountUsersRatedMovie.get(u);
                     totaal += copySimilarToA.length - i;
                     amountUsersRatedMovie.put(u, totaal);
                 }
