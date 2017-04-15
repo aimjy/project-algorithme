@@ -122,8 +122,8 @@ public class Calculate {
             usersAlreadyRate.add(ratingsIndexedByMovie.get(a.getId()).get(i).getUser());
         }
         
-        for(int i = 0; i<copySimilarToA.length; i++){
-            Movie m = (Movie) copySimilarToA[i].getValue();
+        for(double i = 0; i<copySimilarToA.length; i++){
+            Movie m = (Movie) copySimilarToA[(int)i].getValue();
             ArrayList<Rating> ratings = ratingsIndexedByMovie.get(m.getId());
             for(Rating r: ratings){
                 User u = r.getUser();
@@ -132,12 +132,12 @@ public class Calculate {
                     if(ratingsMovie.containsKey(u))
                         huidigeScore = ratingsMovie.get(u);
                     double extraScore = r.getRating();
-                    double nieuweScore = huidigeScore + (copySimilarToA.length - i) * extraScore;
+                    double nieuweScore = huidigeScore + (((double)copySimilarToA.length) - i) * extraScore;
                     ratingsMovie.put(u, nieuweScore);
                     double totaal = 0.0;
                     if(amountUsersRatedMovie.containsKey(u))
                         totaal = amountUsersRatedMovie.get(u);
-                    totaal += copySimilarToA.length - i;
+                    totaal += ((double)copySimilarToA.length) - i;
                     amountUsersRatedMovie.put(u, totaal);
                 }
                 
