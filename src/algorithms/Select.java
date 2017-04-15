@@ -102,10 +102,13 @@ public class Select {
         ArrayList<Rating> ratingsLikedMovie = ratingsIndexedByMovie.get(likedMovie.getId());
         
         for(int i = 0; i<allMovies.size(); i++) {
-            ArrayList<Rating> tempo = ratingsIndexedByMovie.get(allMovies.get(i).getId());
-            double afstand = Calculate.distanceBetweenTwoMovies(ratingsLikedMovie, tempo, "cosine");
-            ComparableSimpleEntry temp = new ComparableSimpleEntry(afstand,allMovies.get(i));
+            Movie film = allMovies.get(i);
+            if(film != likedMovie) {
+            ArrayList<Rating> tempo = ratingsIndexedByMovie.get(film.getId());
+            double afstand = Calculate.distanceBetweenTwoMovies(ratingsLikedMovie, tempo, "euclidean");
+            ComparableSimpleEntry temp = new ComparableSimpleEntry(afstand,film);
             fspq.add(temp);
+            }
         }
         
         return fspq;
