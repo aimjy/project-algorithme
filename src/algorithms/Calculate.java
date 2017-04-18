@@ -132,12 +132,13 @@ public class Calculate {
                     if(ratingsMovie.containsKey(u))
                         huidigeScore = ratingsMovie.get(u);
                     double extraScore = r.getRating();
-                    double nieuweScore = huidigeScore + (((double)copySimilarToA.length) - i) * extraScore;
+                    double weight = distanceBetweenTwoMovies(ratingsIndexedByMovie.get(a.getId()), ratingsIndexedByMovie.get(m.getId()), "euclidean");
+                    double nieuweScore = huidigeScore + weight * extraScore;
                     ratingsMovie.put(u, nieuweScore);
                     double totaal = 0.0;
                     if(amountUsersRatedMovie.containsKey(u))
                         totaal = amountUsersRatedMovie.get(u);
-                    totaal += ((double)copySimilarToA.length) - i;
+                    totaal += weight;
                     amountUsersRatedMovie.put(u, totaal);
                 }
                 
