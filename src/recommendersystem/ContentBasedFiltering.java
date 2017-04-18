@@ -85,7 +85,6 @@ public class ContentBasedFiltering {
                 int correctAnswer = Integer.parseInt(textReaderOutput.readLine());
                 int ourAnswer;
                 if(dynamic1){
-                System.out.println("yolo");
                     ourAnswer = Dynamic1.amountOfSquareSubSequences(aLine);
                 } else{
                     ourAnswer = Dynamic2.amountOfSquareSubSequences(aLine);
